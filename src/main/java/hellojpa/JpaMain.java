@@ -17,12 +17,12 @@ public class JpaMain {
 
         try{
             // 영속
-            Member findMember1 = em.find(Member.class, 101L);
-            Member findMember2 = em.find(Member.class, 101L);
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("C");
+            member.setRoleType(RoleType.GUEST);
 
-            // 영속 엔티티의 동일성 보장
-            System.out.println(" result = " +  (findMember1 == findMember2));
-
+            em.persist(member);
             tx.commit();
         }catch (Exception e){
             tx.rollback();
