@@ -16,18 +16,32 @@ public class JpaMain {
         tx.begin();
 
         try{
-            // 삽입할때 이슈
+            // 저장
             Team team = new Team();
             team.setName("TeamA");
+            //team.getMembers().add(member);
             em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
+            //member.changeTeam(team); // **
             em.persist(member);
+
+            team.addMember(member);
+
+            // 역방향(주인이 아닌 방향)만 연관관계 설정
+            // 여기서는 team에다가 member를 넣어주는 것을 의미한다.
+            //team.getMembers().add(member);
 
             em.flush();
             em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = findTeam.getMembers();
+
+            for (Member m : members) {
+                System.out.println("m.getUsername() = " + m.getUsername());
+            }
 
             // 조회할때 이슈
             // Member findMember = em.find(Member.class, member.getId());
@@ -38,11 +52,11 @@ public class JpaMain {
             // Team findTeam = findMember.getTeam();
             // System.out.println("findTeam = " + findTeam.getName());
             // 반대 방향으로도 객체 그래프 탐색을 할 수 있다.
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
-            for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
+            //Member findMember = em.find(Member.class, member.getId());
+            //List<Member> members = findMember.getTeam().getMembers();
+            //for (Member m : members) {
+            //    System.out.println("m.getUsername() = " + m.getUsername());
+            //}
 
             tx.commit();
         }catch (Exception e){

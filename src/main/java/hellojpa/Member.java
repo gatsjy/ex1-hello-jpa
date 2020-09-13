@@ -18,7 +18,7 @@ public class Member {
     private String username;
 
     @ManyToOne // 하나의 팀은 여러 멤버를 가지니까 team은 manyToOne으로 어노테이션 매핑한다.
-    @JoinColumn(name = "TEAM_ID") // foreign 키를 연관관계 매핑을 한다 ** 외래키가 있는 곳에 주인을 정하라
+    @JoinColumn(name = "TEAM_ID") // foreign 키를 연관관계 매핑을 한다 ** 외래키가 있는 곳에 주인을 정하
     private Team team;
 
     public Long getId() {
@@ -44,4 +44,10 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    // 연관관계 편의 메서드..
+    //public void changeTeam(Team team) {
+    //    this.team = team;
+    //    team.getMembers().add(this);
+    //}
 }
