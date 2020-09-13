@@ -20,7 +20,10 @@ public class JpaMain {
             Member member = new Member();
             member.setUsername("C");
 
+            System.out.println(" ======= persist start=====");
             em.persist(member);
+            System.out.println(" ====" + member.getId());
+            System.out.println(" ======= persist end=======");
 
             tx.commit();
         }catch (Exception e){

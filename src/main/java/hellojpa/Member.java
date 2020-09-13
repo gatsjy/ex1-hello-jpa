@@ -7,14 +7,14 @@ import java.util.Date;
 import java.util.Locale;
 
 @Entity
-@TableGenerator(
-        name ="MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR",
+        sequenceName = "MEMBER_SEQ", // 매핑할 데이터베이스 시퀀스 이름
+        initialValue = 1, allocationSize = 1)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "MEMBER_SEQ_GENERATOR")
     private Long id;
 
@@ -37,8 +37,5 @@ public class Member {
         this.username = username;
     }
 
-
-    public Member(){
-
-    }
+    public Member(){ }
 }
