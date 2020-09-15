@@ -3,7 +3,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Entity
@@ -17,9 +19,17 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne // 하나의 팀은 여러 멤버를 가지니까 team은 manyToOne으로 어노테이션 매핑한다.
-    @JoinColumn(name = "TEAM_ID") // foreign 키를 연관관계 매핑을 한다 ** 외래키가 있는 곳에 주인을 정하
+    @ManyToOne
+    @JoinColumn(name= "TEAM_ID", insertable = false, updatable = false)
     private Team team;
+
+    @OneToOne
+    @JoinColumn(name ="LOCKER_ID")
+    private Locker locker;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -36,18 +46,4 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    // 연관관계 편의 메서드..
-    //public void changeTeam(Team team) {
-    //    this.team = team;
-    //    team.getMembers().add(this);
-    //}
 }

@@ -21,7 +21,8 @@ public class Team {
     // 팀 -> 회원 연관관계 1개(단방향)
     // 테이블 연관관계 = 1개
     // 회원 <-> 팀의 연관관계 1개(양방향)
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {
@@ -46,10 +47,5 @@ public class Team {
 
     public void setMembers(List<Member> members) {
         this.members = members;
-    }
-
-    public void addMember(Member member) {
-        member.setTeam(this);
-        members.add(member);
     }
 }
